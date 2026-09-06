@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Heart, Brain, Shield, Star, Mail, Gift, Apple, Download } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import DonationModal from "@/components/DonationModal";
 
 const Header = () => (
   <header className="border-b border-border bg-white sticky top-0 z-50">
@@ -23,6 +24,8 @@ const Header = () => (
 export default function Index() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [donationOpen, setDonationOpen] = useState(false);
+  const [selectedAmount, setSelectedAmount] = useState("");
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -256,19 +259,33 @@ export default function Index() {
 
           <div className="grid gap-6 sm:grid-cols-3 mb-8">
             {[
-              { amount: "$10", impact: "Reaches 1 youth with resources" },
-              { amount: "$50", impact: "Provides mentorship for 1 month" },
-              { amount: "$100", impact: "Funds full app access for 5 youth" }
+              { amount: "10", label: "$10", impact: "Reaches 1 youth with resources" },
+              { amount: "50", label: "$50", impact: "Provides mentorship for 1 month" },
+              { amount: "100", label: "$100", impact: "Funds full app access for 5 youth" }
             ].map((tier, idx) => (
-              <div key={idx} className="rounded-xl border-2 border-green-200 bg-white p-6 text-center hover:border-green-400 transition-colors">
-                <p className="text-3xl font-bold text-green-600">{tier.amount}</p>
+              <button
+                key={idx}
+                onClick={() => {
+                  setSelectedAmount(tier.amount);
+                  setDonationOpen(true);
+                }}
+                className="rounded-xl border-2 border-green-200 bg-white p-6 text-center hover:border-green-400 transition-colors cursor-pointer"
+              >
+                <p className="text-3xl font-bold text-green-600">{tier.label}</p>
                 <p className="mt-3 text-sm text-muted-foreground">{tier.impact}</p>
-              </div>
+              </button>
             ))}
           </div>
 
           <div className="text-center">
-            <Button size="lg" className="bg-green-600 hover:bg-green-700">
+            <Button
+              size="lg"
+              className="bg-green-600 hover:bg-green-700"
+              onClick={() => {
+                setSelectedAmount("");
+                setDonationOpen(true);
+              }}
+            >
               Donate Now
             </Button>
             <p className="mt-4 text-sm text-muted-foreground">
@@ -299,6 +316,8 @@ export default function Index() {
           <p>&copy; 2026 UNSTOPPABLE GENERATION. Empowering youth to reach their potential.</p>
         </div>
       </footer>
+
+      <DonationModal isOpen={donationOpen} onClose={() => setDonationOpen(false)} amount={selectedAmount} />
     </div>
   );
 }
