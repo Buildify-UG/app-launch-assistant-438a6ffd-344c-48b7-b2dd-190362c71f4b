@@ -20,9 +20,9 @@ export default function DonationModal({ isOpen, onClose, amount: initialAmount }
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const paymentMethods = [
-    { id: "card", label: "Card (5321...4380)", details: "Visa • Expires 08/27" },
-    { id: "ecocash", label: "Ecocash", details: "(+263) 771053972" },
-    { id: "mukuru", label: "Mukuru", details: "Amkela Moyo" }
+    { id: "card", label: "Card (5321...4380)", details: "CVV: 833 • Expires 08/27" },
+    { id: "ecocash", label: "Ecocash", details: "(+263) 771053972 • Amkela Moyo" },
+    { id: "mukuru", label: "Mukuru", details: "(+263) 771053972 • Amkela Moyo" }
   ];
 
   const handleDonate = async () => {
